@@ -10,9 +10,12 @@ DOBA API 对接后端服务 - 连接简道云与 DOBA 平台
 - **产品库存和价格同步**
 - **订单状态和运单号回写**
 
-## 📖 API 参考文档
+## 📖 参考文档
 
-完整的 DOBA API 对接规范请查看：[DOBA-API-Reference.md](./docs/DOBA-API-Reference.md)
+| 文档 | 说明 |
+|------|------|
+| [DOBA-API-Reference.md](./docs/DOBA-API-Reference.md) | DOBA API 完整对接规范（签名、下单、物流、库存等） |
+| [HomeDepot-SalesOrder-Fields.md](./docs/HomeDepot-SalesOrder-Fields.md) | 简道云 HomeDepot 销售订单表单字段映射（92 个字段） |
 
 ## 🔧 技术栈
 
@@ -28,9 +31,10 @@ DOBA API 对接后端服务 - 连接简道云与 DOBA 平台
 ```
 DOBA-API/
 ├── docs/
-│   └── DOBA-API-Reference.md   # DOBA API 完整规范文档
-├── src/                        # 源代码（待开发）
-├── .env.example                # 环境变量模板
+│   ├── DOBA-API-Reference.md           # DOBA API 完整规范文档
+│   └── HomeDepot-SalesOrder-Fields.md  # 简道云 HomeDepot 销售订单字段映射
+├── src/                                # 源代码（待开发）
+├── .env.example                        # 环境变量模板
 ├── .gitignore
 ├── package.json
 └── README.md
