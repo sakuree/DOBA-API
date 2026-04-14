@@ -36,6 +36,14 @@ DOBA-API/
 └── README.md
 ```
 
+## 🔗 仓库信息
+
+| 项目 | 值 |
+|------|------|
+| **GitHub 仓库** | https://github.com/sakuree/DOBA-API |
+| **部署平台** | 待定 |
+| **本地路径** | `d:\project\DOBA-API` |
+
 ## 🔗 相关链接
 
 - [DOBA API 官方文档](https://open.doba.com/apidoc/retailer/instruction)
