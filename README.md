@@ -10,6 +10,13 @@ DOBA API 对接后端服务 - 连接简道云与 DOBA 平台
 - **产品库存和价格同步**
 - **订单状态和运单号回写**
 
+## 📖 核心功能（已实现）
+
+本项目通过飞书机器人实现了 DOBA 平台 API 和简道云的联动整合，目前已上线：
+- **飞书自然交互**：直接 @机器人 发送推单指令即可。
+- **一件代发订单推送**：读取简道云客户资料和商品明细推送到 DOBA 进行购买和预付金扣除。
+- **多件自提订单自动拆分**：针对物流方式为 Pick up（自提）的订单且数量大于 1 的情况，自动分离并解析长合并 PDF 形式的多面单，逐个精准推送到 DOBA。
+
 ## 📖 参考文档
 
 | 文档 | 说明 |
@@ -23,6 +30,7 @@ DOBA API 对接后端服务 - 连接简道云与 DOBA 平台
 |------|------|
 | 运行时 | Node.js 18+ |
 | 框架 | Express.js |
+| 核心库 | pdf-lib，pdf-parse，canvas，zxing-wasm （面条码与PDF拆改）|
 | 签名库 | jsrsasign（RSA2 签名） |
 | HTTP 客户端 | axios |
 
@@ -33,7 +41,14 @@ DOBA-API/
 ├── docs/
 │   ├── DOBA-API-Reference.md           # DOBA API 完整规范文档
 │   └── HomeDepot-SalesOrder-Fields.md  # 简道云 HomeDepot 销售订单字段映射
-├── src/                                # 源代码（待开发）
+├── src/                                # 源代码（已开发）
+│   ├── app.js                          # Web 服务入口 (端口 3010)
+│   ├── feishuHandler.js                # 飞书机器人业务处理层
+│   ├── feishuBot.js                    # 飞书响应核心 API
+│   └── services/
+│       ├── dobaService.js              # DOBA RSA2 签算与请求封装
+│       ├── jiandaoService.js           # 简道云读取更新服务
+│       └── orderSplitter.js            # 复杂多件拆单机制模块
 ├── .env.example                        # 环境变量模板
 ├── .gitignore
 ├── package.json
