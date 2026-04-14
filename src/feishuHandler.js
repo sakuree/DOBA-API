@@ -32,38 +32,61 @@ async function pushToDoba(order, isPickUp) {
             cachedShippingMethods = await dobaService.getShippingMethods();
         }
 
-        // 挑选物流方式
-        // 假设 "Pick up" 等关键词，或者用户在环境变量指定 DEFAULT_SHIPPING_METHOD
-        let shippingMethodId = process.env.DOBA_DEFAULT_SHIPPING_METHOD || 'default_ship_id';
+        // 动态匹配物流方式
+        let shippingMethodId = process.env.DOBA_DEFAULT_SHIPPING_METHOD || '';
         
         let matchingMethod = null;
         if (isPickUp) {
-            matchingMethod = cachedShippingMethods.find(m => m.shippingMethodName.toLowerCase().includes('pick up') || m.shippingMethodName.toLowerCase().includes('pickup'));
+            matchingMethod = cachedShippingMethods.find(m => 
+                m.shippingMethodName.toLowerCase().includes('pick up') || 
+                m.shippingMethodName.toLowerCase().includes('pickup')
+            );
         } else {
-            // 一件代发可以选默认的 standard
-            matchingMethod = cachedShippingMethods.find(m => m.shippingMethodName.toLowerCase().includes('standard'));
+            // 一件代发，可以找 standard，或者取第一个
+            matchingMethod = cachedShippingMethods.find(m => 
+                m.shippingMethodName.toLowerCase().includes('standard')
+            );
         }
 
         if (matchingMethod) {
             shippingMethodId = matchingMethod.shippingMethodId;
         } else if (cachedShippingMethods.length > 0) {
-            // 没有匹配到则用第一个
             shippingMethodId = cachedShippingMethods[0].shippingMethodId;
         }
 
+        if (!shippingMethodId) {
+            throw new Error(`找不到可用的 DOBA ${isPickUp ? '自提' : '代发'} 物流通道 (shippingMethod)`);
+        }
+
         const quantity = order.quantity ? String(order.quantity) : "1";
-        // 使用产品 SKU 或 采购 SKU
-        const itemNo = order._widget_1681532075750 || 'default_item_no'; // 优先 产品SKU
+        
+        // 使用采购 SKU
+        const itemNo = order.purchase_sku;
+        if (!itemNo) {
+            throw new Error('缺少子表单采购 SKU，请求被拦截');
+        }
+
+        // 校验地址和联系信息，拒绝兜底
+        const name = (order._widget_1681532075755 || '').trim();
+        const addr1 = (order._widget_1681532725264 || '').trim();
+        const city = (order._widget_1681532725266 || '').trim();
+        const provinceCode = (order._widget_1681532725267 || '').trim();
+        const zip = (order._widget_1681532725268 || '').trim();
+        const telephone = (order._widget_1681532725269 || '').trim();
+
+        if (!name || !addr1 || !city || !provinceCode || !zip || !telephone) {
+            throw new Error('缺少完整的收件人联系信息（姓名/地址/电话/邮编等核心为空），停止推送以防错误');
+        }
 
         const address = {
-            name: order._widget_1681532075755 || 'Valued Customer',
-            addr1: order._widget_1681532725264 || 'N/A',
+            name,
+            addr1,
             addr2: order._widget_1681532725265 || '',
-            city: order._widget_1681532725266 || 'N/A',
-            provinceCode: order._widget_1681532725267 || 'US', 
-            countryCode: 'US', // 假设默认美国
-            zip: order._widget_1681532725268 || '00000',
-            telephone: order._widget_1681532725269 || '0000000000',
+            city,
+            provinceCode, 
+            countryCode: 'US', // 一般默认美国
+            zip,
+            telephone,
             phoneExtension: ""
         };
 
