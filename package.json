@@ -1,0 +1,22 @@
+{
+  "name": "doba-api",
+  "version": "1.0.0",
+  "description": "DOBA API 对接后端服务 - 连接简道云与 DOBA 平台",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "test:sign": "node tests/test-sign.js",
+    "test:api": "node tests/test-api.js"
+  },
+  "keywords": ["doba", "dropshipping", "jiandaoyun"],
+  "author": "sakuree",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0",
+    "jsrsasign": "^11.1.0",
+    "node-cron": "^3.0.3"
+  }
+}
