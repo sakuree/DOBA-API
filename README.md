@@ -40,13 +40,32 @@ DOBA-API/
 └── README.md
 ```
 
-## 🔗 仓库信息
+## 🚀 部署信息
 
 | 项目 | 值 |
 |------|------|
 | **GitHub 仓库** | https://github.com/sakuree/DOBA-API |
-| **部署平台** | 待定 |
+| **部署平台** | 阿里云（PM2 + Nginx） |
 | **本地路径** | `d:\project\DOBA-API` |
+| **服务器路径** | `/opt/apps/doba-api` |
+| **PM2 进程名** | `doba-api` |
+| **端口** | 3010 |
+| **服务器 IP** | `47.100.120.129` |
+
+### 端口分配依据（2026-04-14 实测 `ss -tlnp`）
+
+| 端口 | 占用应用 | 状态 |
+|------|----------|------|
+| 3001 | email-server | ✅ 运行中 |
+| 3002 | ups-app（SKILL 记录） | ⚠️ 当前未运行，但保留 |
+| 3003 | reports-app | ✅ 运行中 |
+| 3004 | target-order-processing | ✅ 运行中 |
+| 3005 | jdy-shipstation-relay | ✅ 运行中 |
+| 3006 | overseas-inventory | ✅ 运行中 |
+| 3007 | overseas-fulfillment | ✅ 运行中 |
+| 3008 | overseas-order-tagging | ✅ 运行中 |
+| 3009 | giga-api-hub | ✅ 运行中 |
+| **3010** | **doba-api（本项目）** | 🆕 **可用，已分配** |
 
 ## 🔗 相关链接
 
