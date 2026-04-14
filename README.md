@@ -80,7 +80,7 @@ DOBA-API/
 | 3007 | overseas-fulfillment | ✅ 运行中 |
 | 3008 | overseas-order-tagging | ✅ 运行中 |
 | 3009 | giga-api-hub | ✅ 运行中 |
-| **3010** | **doba-api（本项目）** | 🆕 **可用，已分配** |
+| **3010** | **doba-api（本项目）** | 🆕 **当前未运行，已空闲** |
 
 ## 🔗 相关链接
 
